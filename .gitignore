@@ -3,6 +3,7 @@
 !.gitignore
 
 # Folders
+!/.vscode
 !/app
 !/posts
 !/public
