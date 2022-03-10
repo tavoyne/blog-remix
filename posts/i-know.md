@@ -1,5 +1,0 @@
----
-title: I know
----
-
-Bonjour

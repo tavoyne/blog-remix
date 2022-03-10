@@ -1,0 +1,9 @@
+# Folders
+!/routes
+!/styles
+
+# Files
+!/entry.client.tsx
+!/entry.server.tsx
+!/post.ts
+!/root.tsx

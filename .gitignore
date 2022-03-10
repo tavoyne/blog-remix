@@ -1,6 +1,26 @@
-node_modules
+# Global
+*
+!.gitignore
 
-/.cache
-/build
-/public/build
-.env
+# Folders
+!/app
+!/posts
+!/public
+
+# Files
+!/.eslintrc.js
+!/.yarnrc.yml
+!/package.json
+!/remix.config.js
+!/remix.env.d.ts
+!/tsconfig.json
+!/yarn.lock
+
+# Generated
+!/.yarn
+!/.yarn/plugins
+!/.yarn/plugins/**/*
+!/.yarn/releases
+!/.yarn/releases/**/*
+!/.yarn/sdks
+!/.yarn/sdks/**/*
