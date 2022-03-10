@@ -5,9 +5,10 @@ import type { Post } from "~/post";
 import adminStyles from "~/styles/admin.css";
 
 export const links = () => {
-  return [{ rel: "stylesheet", href: adminStyles }];
+  return [{ href: adminStyles, rel: "stylesheet" }];
 };
 
+// eslint-disable-next-line require-await
 export const loader = async () => {
   return getPosts();
 };
@@ -19,16 +20,18 @@ export default function Admin() {
       <nav>
         <h1>Admin</h1>
         <ul>
-          {posts.map((post) => (
-            <li key={post.slug}>
-              <Link to={`/posts/${post.slug}`}>
-                {post.title}
-              </Link>
-            </li>
-          ))}
+          {posts.map((post) => {
+            return (
+              <li key={post.slug}>
+                <Link to={`/posts/${post.slug}`}>{post.title}</Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
-      <main><Outlet /></main>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }

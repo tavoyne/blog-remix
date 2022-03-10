@@ -31,18 +31,14 @@ export async function getPosts() {
   const dir = await fs.readdir(postsPath);
   return Promise.all(
     dir.map(async (filename) => {
-      const file = await fs.readFile(
-        path.join(postsPath, filename)
-      );
-      const { attributes } = parseFrontMatter(
-        file.toString()
-      );
+      const file = await fs.readFile(path.join(postsPath, filename));
+      const { attributes } = parseFrontMatter(file.toString());
       invariant(
         isValidPostAttributes(attributes),
         `${filename} has bad meta data!`
       );
       return {
-        slug: filename.replace(/\.md$/, ""),
+        slug: filename.replace(/\.md$/u, ""),
         title: attributes.title,
       };
     })
@@ -50,24 +46,19 @@ export async function getPosts() {
 }
 
 export async function getPost(slug: string) {
-  const filepath = path.join(postsPath, slug + ".md");
+  const filepath = path.join(postsPath, `${slug}.md`);
   const file = await fs.readFile(filepath);
-  const { attributes, body } = parseFrontMatter(
-    file.toString()
-  );
+  const { attributes, body } = parseFrontMatter(file.toString());
   invariant(
     isValidPostAttributes(attributes),
     `Post ${filepath} is missing attributes`
   );
   const html = marked(body);
-  return { slug, html, title: attributes.title };
+  return { html, slug, title: attributes.title };
 }
 
 export async function createPost(post: NewPost) {
   const md = `---\ntitle: ${post.title}\n---\n\n${post.markdown}`;
-  await fs.writeFile(
-    path.join(postsPath, post.slug + ".md"),
-    md
-  );
+  await fs.writeFile(path.join(postsPath, `${post.slug}.md`), md);
   return getPost(post.slug);
 }
