@@ -1,64 +1,58 @@
-import path from "path";
-import fs from "fs/promises";
-import parseFrontMatter from "front-matter";
-import invariant from "tiny-invariant";
+import fm from "front-matter";
+import { readdir, readFile } from "fs/promises";
 import { marked } from "marked";
+import { join } from "path";
+import { Infer, assert, assign, object, string } from "superstruct";
 
-export type Post = {
-  slug: string;
-  title: string;
-};
+const postsPath = join(__dirname, "..", "posts");
 
-export type PostMarkdownAttributes = {
-  title: string;
-};
+export const Attributes = object({
+  creationDate: string(),
+  description: string(),
+  title: string(),
+});
 
-type NewPost = {
-  title: string;
-  slug: string;
-  markdown: string;
-};
+export const Body = string();
 
-const postsPath = path.join(__dirname, "..", "posts");
+export const Meta = assign(
+  Attributes,
+  object({
+    slug: string(),
+  })
+);
 
-function isValidPostAttributes(
-  attributes: any
-): attributes is PostMarkdownAttributes {
-  return attributes?.title;
-}
+export const Post = assign(Meta, object({ html: string() }));
 
-export async function getPosts() {
-  const dir = await fs.readdir(postsPath);
+export async function getPosts(): Promise<Infer<typeof Meta>[]> {
+  const filenames = await readdir(postsPath);
+
   return Promise.all(
-    dir.map(async (filename) => {
-      const file = await fs.readFile(path.join(postsPath, filename));
-      const { attributes } = parseFrontMatter(file.toString());
-      invariant(
-        isValidPostAttributes(attributes),
-        `${filename} has bad meta data!`
-      );
-      return {
-        slug: filename.replace(/\.md$/u, ""),
-        title: attributes.title,
-      };
-    })
+    filenames
+      .filter((filename) => {
+        return filename.endsWith(".md");
+      })
+      .map(async (filename) => {
+        const content = await readFile(join(postsPath, filename));
+        const { attributes } = fm(content.toString());
+        assert(attributes, Attributes);
+        return {
+          slug: filename.replace(/\.md$/u, ""),
+          ...attributes,
+        };
+      })
   );
 }
 
-export async function getPost(slug: string) {
-  const filepath = path.join(postsPath, `${slug}.md`);
-  const file = await fs.readFile(filepath);
-  const { attributes, body } = parseFrontMatter(file.toString());
-  invariant(
-    isValidPostAttributes(attributes),
-    `Post ${filepath} is missing attributes`
-  );
+export async function getPost(slug: string): Promise<Infer<typeof Post>> {
+  const path = join(postsPath, `${slug}.md`);
+  const content = await readFile(path);
+  const { attributes, body } = fm(content.toString());
+  assert(attributes, Attributes);
+  assert(body, Body);
   const html = marked(body);
-  return { html, slug, title: attributes.title };
-}
-
-export async function createPost(post: NewPost) {
-  const md = `---\ntitle: ${post.title}\n---\n\n${post.markdown}`;
-  await fs.writeFile(path.join(postsPath, `${post.slug}.md`), md);
-  return getPost(post.slug);
+  return {
+    html,
+    slug,
+    ...attributes,
+  };
 }

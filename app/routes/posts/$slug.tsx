@@ -1,16 +1,22 @@
+import { Link } from "remix";
 import { useLoaderData } from "remix";
 import type { LoaderFunction } from "remix";
 import invariant from "tiny-invariant";
 
 import { getPost } from "~/post";
 
-// eslint-disable-next-line require-await
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = ({ params }) => {
   invariant(params.slug, "expected params.slug");
   return getPost(params.slug);
 };
 
 export default function PostSlug() {
-  const post = useLoaderData();
-  return <main dangerouslySetInnerHTML={{ __html: post.html }} />;
+  const post = useLoaderData<Awaited<ReturnType<typeof getPost>>>();
+
+  return (
+    <>
+      <Link to="..">Back</Link>
+      <main dangerouslySetInnerHTML={{ __html: post.html }} />
+    </>
+  );
 }

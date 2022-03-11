@@ -5956,6 +5956,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     remix: ^1.2.3
+    superstruct: ^0.15.4
     tiny-invariant: ^1.2.0
     typescript: ^4.5.5
   languageName: unknown
@@ -6375,6 +6376,13 @@ __metadata:
   dependencies:
     inline-style-parser: 0.1.1
   checksum: 4d7084015207f2a606dfc10c29cb5ba569f2fe8005551df7396110dd694d6ff650f2debafa95bd5d147dfb4ca50f57868e2a7f91bf5d11ef734fe7ccbd7abf59
+  languageName: node
+  linkType: hard
+
+"superstruct@npm:^0.15.4":
+  version: 0.15.4
+  resolution: "superstruct@npm:0.15.4"
+  checksum: aac38eecda2c0d3aace2fe95baac042d39bfdd50dda480d3f70b8bacb87fe7ba228ede4869537dfb64f1d32a1fe3d794052e7765ed6c3f7bc156795fd761fdfd
   languageName: node
   linkType: hard
 

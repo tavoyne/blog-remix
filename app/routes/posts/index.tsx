@@ -1,15 +1,14 @@
 import { Link, useLoaderData } from "remix";
 
 import { getPosts } from "~/post";
-import type { Post } from "~/post";
 
-// eslint-disable-next-line require-await
-export const loader = async () => {
+export const loader = () => {
   return getPosts();
 };
 
 export default function Posts() {
-  const posts = useLoaderData<Post[]>();
+  const posts = useLoaderData<Awaited<ReturnType<typeof getPosts>>>();
+
   return (
     <main>
       <h1>Posts</h1>
