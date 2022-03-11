@@ -10,6 +10,7 @@
 
 # Files
 !/.eslintrc.js
+!/.prettierignore
 !/.yarnrc.yml
 !/package.json
 !/remix.config.js
