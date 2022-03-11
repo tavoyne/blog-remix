@@ -6,10 +6,21 @@ import {
   Scripts,
   ScrollRestoration,
 } from "remix";
-import type { MetaFunction } from "remix";
+import type { LinksFunction, MetaFunction } from "remix";
+
+import globalStylesUrl from "./styles/global.css";
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      href: globalStylesUrl,
+      rel: "stylesheet",
+    },
+  ];
 };
 
 export default function App() {
