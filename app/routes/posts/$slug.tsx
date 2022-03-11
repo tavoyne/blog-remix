@@ -34,6 +34,7 @@ export default function PostSlug() {
     <>
       <Link to="..">Back</Link>
       <main dangerouslySetInnerHTML={{ __html: post.html }} />
+      <a href={`https://github.com/tavoyne/${post.slug}.md`}>Edit on GitHub</a>
     </>
   );
 }
