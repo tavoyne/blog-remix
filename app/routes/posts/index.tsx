@@ -12,15 +12,15 @@ export default function Posts() {
   return (
     <main>
       <h1>Posts</h1>
-      <ul>
-        {posts.map((post) => {
-          return (
-            <li key={post.slug}>
-              <Link to={post.slug}>{post.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
+      {posts.map((post) => {
+        return (
+          <Link key={post.slug} to={post.slug}>
+            <div>{post.creationDate}</div>
+            <h3>{post.title}</h3>
+            <p>{post.description}</p>
+          </Link>
+        );
+      })}
     </main>
   );
 }
