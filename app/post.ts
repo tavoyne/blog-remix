@@ -43,9 +43,19 @@ export async function getPosts(): Promise<Infer<typeof Meta>[]> {
   );
 }
 
-export async function getPost(slug: string): Promise<Infer<typeof Post>> {
+export async function getPost(
+  slug: string
+): Promise<Infer<typeof Post> | null> {
   const path = join(postsPath, `${slug}.md`);
-  const content = await readFile(path);
+  let content: Awaited<ReturnType<typeof readFile>>;
+  try {
+    content = await readFile(path);
+  } catch (err: any) {
+    if (err.code === "ENOENT") {
+      return null;
+    }
+    throw err;
+  }
   const { attributes, body } = fm(content.toString());
   assert(attributes, Attributes);
   assert(body, Body);

@@ -1,5 +1,5 @@
 import { Link } from "remix";
-import { useLoaderData } from "remix";
+import { useCatch, useLoaderData } from "remix";
 import type { LoaderFunction, MetaFunction } from "remix";
 import invariant from "tiny-invariant";
 
@@ -10,25 +10,25 @@ export const meta: MetaFunction = ({
 }: {
   data: Awaited<ReturnType<typeof getPost>> | undefined;
 }) => {
-  if (!data) {
-    return {
-      description: "This page doesn't exist.",
-      title: "Page not found",
-    };
-  }
   return {
-    description: data.description,
-    title: data.title,
+    description: data?.description || "Not found.",
+    title: data?.title || "Not found.",
   };
 };
 
-export const loader: LoaderFunction = ({ params }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.slug, "expected params.slug");
-  return getPost(params.slug);
+  const post = await getPost(params.slug);
+  if (!post) {
+    throw new Response("What a joke! Not found.", {
+      status: 404,
+    });
+  }
+  return post;
 };
 
 export default function PostSlug() {
-  const post = useLoaderData<Awaited<ReturnType<typeof getPost>>>();
+  const post = useLoaderData<Awaited<ReturnType<typeof loader>>>();
 
   return (
     <>
@@ -37,4 +37,17 @@ export default function PostSlug() {
       <a href={`https://github.com/tavoyne/${post.slug}.md`}>Edit on GitHub</a>
     </>
   );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  if (caught.status === 404) {
+    return (
+      <>
+        <h1>404</h1>
+        <p>You are trying to visit a page that does not exists.</p>
+        <Link to="/">Home</Link>
+      </>
+    );
+  }
 }
