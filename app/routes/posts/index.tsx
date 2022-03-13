@@ -15,8 +15,8 @@ export default function Posts() {
       {posts.map((post) => {
         return (
           <Link key={post.slug} to={post.slug}>
-            <div>{post.creationDate}</div>
             <h3>{post.title}</h3>
+            <div>{post.creationDate}</div>
             <p>{post.description}</p>
           </Link>
         );
