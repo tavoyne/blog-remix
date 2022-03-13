@@ -34,6 +34,7 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        {new Date().getFullYear()} © Théophile Avoyne
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
