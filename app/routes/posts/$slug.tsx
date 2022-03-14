@@ -42,7 +42,9 @@ export default function PostSlug() {
         >
           Tweet this article
         </a>
-        <a href={`https://github.com/tavoyne/blog/posts/${post.slug}.md`}>
+        <a
+          href={`https://github.com/tavoyne/blog/blob/master/posts/${post.slug}.md`}
+        >
           Edit on GitHub
         </a>
       </div>
