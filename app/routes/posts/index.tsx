@@ -14,7 +14,11 @@ export default function Posts() {
       <h1>Posts</h1>
       {posts.map((post) => {
         return (
-          <Link key={post.slug} to={post.slug}>
+          <Link
+            key={post.slug}
+            style={{ textDecoration: "none" }}
+            to={post.slug}
+          >
             <h3>{post.title}</h3>
             <div>{post.creationDate}</div>
             <p>{post.description}</p>
