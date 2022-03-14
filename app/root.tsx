@@ -1,4 +1,5 @@
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -33,8 +34,40 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <header
+          style={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "2rem",
+          }}
+        >
+          <Link to="/">
+            <div
+              style={{
+                background: "linear-gradient(#e66465, #9198e5)",
+                height: "3rem",
+                width: "3rem",
+              }}
+            />
+          </Link>
+          <nav>
+            <Link style={{ marginRight: "0.75rem" }} to="/">
+              About
+            </Link>
+            <Link to="/posts">Posts</Link>
+          </nav>
+        </header>
         <Outlet />
-        {new Date().getFullYear()} © Théophile Avoyne
+        <footer
+          style={{
+            borderTop: "1px solid #AAAAAA",
+            marginTop: "2rem",
+            paddingTop: "1rem",
+          }}
+        >
+          {new Date().getFullYear()} © Théophile Avoyne
+        </footer>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

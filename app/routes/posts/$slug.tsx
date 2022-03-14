@@ -32,9 +32,20 @@ export default function PostSlug() {
 
   return (
     <>
-      <Link to="..">Back</Link>
+      <p>{post.creationDate}</p>
       <main dangerouslySetInnerHTML={{ __html: post.html }} />
-      <a href={`https://github.com/tavoyne/${post.slug}.md`}>Edit on GitHub</a>
+      <br />
+      <div>
+        <a
+          style={{ marginRight: "0.75rem" }}
+          href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+        >
+          Tweet this article
+        </a>
+        <a href={`https://github.com/tavoyne/blog/posts/${post.slug}.md`}>
+          Edit on GitHub
+        </a>
+      </div>
     </>
   );
 }
