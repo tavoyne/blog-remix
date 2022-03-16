@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@remix-run/react": "^1.2.3",
+    "@remix-run/serve": "^1.2.3",
     "@remix-run/vercel": "^1.2.3",
     "front-matter": "^4.0.2",
     "marked": "^4.0.12",
