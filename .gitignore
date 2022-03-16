@@ -15,7 +15,9 @@
 !/package.json
 !/remix.config.js
 !/remix.env.d.ts
+!/server.js
 !/tsconfig.json
+!/vercel.json
 !/yarn.lock
 
 # Generated
